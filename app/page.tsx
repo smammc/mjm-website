@@ -20,44 +20,54 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ===== UPDATED HERO ===== */}
+      {/* ===== HERO ===== */}
       <section className="relative isolate w-screen max-w-none overflow-hidden">
         <div className="mx-auto grid max-w-6xl grid-cols-1 lg:grid-cols-2">
           {/* Left: images */}
-          <div className="relative flex h-[45vh] min-h-[420px] w-full gap-4 lg:h-[60vh]">
-            <div className="relative h-full flex-1">
-              <Image
-                src="/img2.png"
-                alt={hero.imageAlt}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 33vw"
-                className="rounded-lg object-cover"
-              />
+          <div className="relative flex h-[45vh] min-h-[500px] w-full items-center gap-2 p-4 sm:gap-3 sm:p-6 md:h-[55vh] md:gap-4 lg:h-[60vh] lg:p-8">
+            {/* Image 1 - Shorter */}
+            <div className="relative h-[75%] flex-1 self-start">
+              <div className="relative h-full overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl">
+                <Image
+                  src="/img2.png"
+                  alt={hero.imageAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 30vw, (max-width: 1024px) 25vw, 20vw"
+                  className="object-cover object-top"
+                />
+              </div>
             </div>
-            <div className="relative hidden h-full flex-1 md:block">
-              <Image
-                src="/img2.png"
-                alt="Foto 2"
-                fill
-                sizes="(max-width: 1024px) 100vw, 33vw"
-                className="rounded-lg object-cover"
-              />
+
+            {/* Image 2 - Full height */}
+            <div className="relative h-[90%] flex-1">
+              <div className="relative h-full overflow-hidden rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl">
+                <Image
+                  src="/img2.png"
+                  alt="Foto 2"
+                  fill
+                  sizes="(max-width: 640px) 30vw, (max-width: 1024px) 25vw, 20vw"
+                  className="object-cover object-center"
+                />
+              </div>
             </div>
-            <div className="relative hidden h-full flex-1 lg:block">
-              <Image
-                src="/img2.png"
-                alt="Foto 3"
-                fill
-                sizes="(max-width: 1024px) 100vw, 33vw"
-                className="rounded-lg bg-white object-cover"
-              />
+
+            {/* Image 3 - Shorter, bottom aligned */}
+            <div className="relative h-[75%] flex-1 self-end">
+              <div className="relative h-full overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl">
+                <Image
+                  src="/img2.png"
+                  alt="Foto 3"
+                  fill
+                  sizes="(max-width: 640px) 30vw, (max-width: 1024px) 25vw, 20vw"
+                  className="object-cover object-bottom"
+                />
+              </div>
             </div>
-            <div className="from-primary/40 pointer-events-none absolute inset-0 bg-gradient-to-t via-transparent to-transparent lg:hidden" />
           </div>
 
-          {/* Right: info panel */}
-          <div className="bg-primary flex h-[45vh] min-h-[420px] items-center px-6 py-14 sm:px-8 lg:h-[60vh] lg:px-12">
+          {/* Right: info panel - remains the same */}
+          <div className="bg-primary flex h-[45vh] min-h-[500px] items-center px-6 py-14 sm:px-8 md:h-[55vh] lg:h-[60vh] lg:px-12">
             <div className="text-primary-foreground w-full max-w-xl">
               <p className="text-sm tracking-wide uppercase opacity-80">
                 Psicologia Clínica &amp; Psicoterapia
@@ -82,20 +92,11 @@ export default function HomePage() {
                   {hero.ctaSecondary}
                 </Button>
               </div>
-
-              {/* small trust row */}
-              <ul className="text-primary-foreground/80 mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs">
-                <li className="before:mr-2 before:content-['•']">
-                  Sessões presenciais &amp; online
-                </li>
-                <li className="before:mr-2 before:content-['•']">Confidencialidade</li>
-                <li className="before:mr-2 before:content-['•']">Baseado em evidência</li>
-              </ul>
             </div>
           </div>
         </div>
       </section>
-      {/* ===== END UPDATED HERO ===== */}
+      {/* ===== END HERO ===== */}
 
       <Section id="sobre" title={sections.sobre.title}>
         <p className="text-base leading-relaxed sm:text-lg">{sections.sobre.body}</p>

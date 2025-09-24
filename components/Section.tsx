@@ -43,7 +43,7 @@ export default function Section({
               {kicker}
             </div>
           )}
-          <h2 className="text-xl font-semibold text-slate-900 sm:text-2xl">{title}</h2>
+          <h2 className="text-xl font-semibold text-primary-600 sm:text-2xl">{title}</h2>
           <div className="bg-primary/20 mt-2 h-[3px] w-16 rounded-full" />
         </header>
       )}
