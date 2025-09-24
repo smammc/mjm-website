@@ -1,31 +1,53 @@
-'use client'
+import React from 'react'
+import { clsx } from 'clsx'
 
-interface SectionProps {
+type SectionProps = {
   id?: string
   title?: string
+  kicker?: string
   children: React.ReactNode
   className?: string
-  titleClassName?: string
+  density?: 'compact' | 'normal' | 'comfortable'
+  divider?: boolean
+}
+
+const densityMap = {
+  compact: 'py-8 sm:py-10',
+  normal: 'py-12 sm:py-16',
+  comfortable: 'py-16 sm:py-20',
 }
 
 export default function Section({
   id,
   title,
+  kicker,
   children,
-  className = '',
-  titleClassName = '',
+  className,
+  density = 'normal',
+  divider = false,
 }: SectionProps) {
-  const sectionClass = ['mx-auto max-w-6xl px-4 py-12 sm:px-6 md:px-8 lg:py-20', className]
-    .filter(Boolean)
-    .join(' ')
-  const headingClass = ['mb-8 text-3xl font-semibold sm:text-4xl', titleClassName]
-    .filter(Boolean)
-    .join(' ')
-
   return (
-    <section id={id} className={sectionClass}>
-      {title && <h2 className={headingClass}>{title}</h2>}
-      {children}
+    <section
+      id={id}
+      className={clsx(
+        'mx-auto max-w-6xl px-4 sm:px-6 md:px-8',
+        densityMap[density],
+        divider && 'border-b border-slate-200',
+        className,
+      )}
+    >
+      {title && (
+        <header className="mb-6">
+          {kicker && (
+            <div className="text-primary/80 text-xs font-semibold tracking-wide uppercase">
+              {kicker}
+            </div>
+          )}
+          <h2 className="text-xl font-semibold text-slate-900 sm:text-2xl">{title}</h2>
+          <div className="bg-primary/20 mt-2 h-[3px] w-16 rounded-full" />
+        </header>
+      )}
+      <div className="text-slate-700">{children}</div>
     </section>
   )
 }

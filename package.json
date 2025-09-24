@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
+    "preview": "ngrok http --basic-auth='demo:secret123' 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -12,7 +13,10 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "clsx": "^2.1.1",
+    "gray-matter": "^4.0.3",
     "next": "15.5.3",
+    "next-mdx-remote": "^5.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

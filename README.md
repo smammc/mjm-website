@@ -9,11 +9,13 @@ A simple, extendable starter:
 - Template: **simple**
 
 ## Dev
+
 ```bash
 npm run dev
 ```
 
 ## Build
+
 ```bash
 npm run build && npm start
 ```

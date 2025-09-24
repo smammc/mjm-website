@@ -1,46 +1,196 @@
-import { translations, locales, Locale } from '@/lib/translations'
 import type { Metadata } from 'next'
-import HomePageClient from './HomePageClient'
+import Button from '@/components/Button'
+import Image from 'next/image'
+import Section from '@/components/Section'
+import Card from '@/components/Card'
+import Testimonial from '@/components/Testimonial'
+import { text } from './TextPage'
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  const locale = locales.includes(params?.locale as string as Locale) ? params.locale : 'pt'
-  const t = translations[locale as keyof typeof translations]
-  const title = t.header.brand
-  let description = t.home.hero.subtitle
-  if (locale === 'pt') {
-    description = description.replace('Lisboa', 'Lisboa')
-  }
-  const url = 'https://www.mariajoaomartins.com/'
-  const image = '/images/maria-joao.jpg'
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title,
-    description,
-    metadataBase: new URL(url),
-    alternates: {
-      canonical: url,
-      languages: {
-        'pt-PT': url,
-        'en': url + 'en',
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url,
-      siteName: title,
-      locale: locale === 'pt' ? 'pt_PT' : 'en_US',
-      type: 'website',
-      images: [image],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [image],
-    },
+    title: 'Maria João Martins | Psicóloga',
+    description: 'Apoio psicológico e psicoterapia para jovens, adultos e casais.',
   }
 }
 
 export default function HomePage() {
-  return <HomePageClient />
+  const { hero, sections } = text
+  const phoneNumber = sections.contactos.phone?.trim()
+  const sanitizedPhone = phoneNumber ? phoneNumber.replace(/\s+/g, '') : ''
+
+  return (
+    <>
+      {/* ===== UPDATED HERO ===== */}
+      <section className="relative isolate w-screen max-w-none overflow-hidden">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 lg:grid-cols-2">
+          {/* Left: images */}
+          <div className="relative flex h-[45vh] min-h-[420px] w-full gap-4 lg:h-[60vh]">
+            <div className="relative h-full flex-1">
+              <Image
+                src="/img2.png"
+                alt={hero.imageAlt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 33vw"
+                className="rounded-lg object-cover"
+              />
+            </div>
+            <div className="relative hidden h-full flex-1 md:block">
+              <Image
+                src="/img2.png"
+                alt="Foto 2"
+                fill
+                sizes="(max-width: 1024px) 100vw, 33vw"
+                className="rounded-lg object-cover"
+              />
+            </div>
+            <div className="relative hidden h-full flex-1 lg:block">
+              <Image
+                src="/img2.png"
+                alt="Foto 3"
+                fill
+                sizes="(max-width: 1024px) 100vw, 33vw"
+                className="rounded-lg bg-white object-cover"
+              />
+            </div>
+            <div className="from-primary/40 pointer-events-none absolute inset-0 bg-gradient-to-t via-transparent to-transparent lg:hidden" />
+          </div>
+
+          {/* Right: info panel */}
+          <div className="bg-primary flex h-[45vh] min-h-[420px] items-center px-6 py-14 sm:px-8 lg:h-[60vh] lg:px-12">
+            <div className="text-primary-foreground w-full max-w-xl">
+              <p className="text-sm tracking-wide uppercase opacity-80">
+                Psicologia Clínica &amp; Psicoterapia
+              </p>
+
+              <h1 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl lg:text-5xl">
+                {hero.title}
+              </h1>
+
+              {/* decorative underline */}
+              <div className="bg-primary-foreground/80 mt-3 h-[3px] w-28 rounded-full" />
+
+              <p className="text-primary-foreground/90 mt-6 text-base leading-relaxed sm:text-lg">
+                {hero.subtitle}
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button href="/marcar" variant="surface" className="w-full sm:w-auto">
+                  {hero.ctaPrimary}
+                </Button>
+                <Button href="#contactos" variant="ghost" className="w-full sm:w-auto">
+                  {hero.ctaSecondary}
+                </Button>
+              </div>
+
+              {/* small trust row */}
+              <ul className="text-primary-foreground/80 mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs">
+                <li className="before:mr-2 before:content-['•']">
+                  Sessões presenciais &amp; online
+                </li>
+                <li className="before:mr-2 before:content-['•']">Confidencialidade</li>
+                <li className="before:mr-2 before:content-['•']">Baseado em evidência</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* ===== END UPDATED HERO ===== */}
+
+      <Section id="sobre" title={sections.sobre.title}>
+        <p className="text-base leading-relaxed sm:text-lg">{sections.sobre.body}</p>
+      </Section>
+
+      <Section id="quem" title={sections.quem.title}>
+        <ul className="grid list-disc gap-3 pl-5 sm:grid-cols-2 sm:gap-4">
+          {sections.quem.audience.map((item: string) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section id="areas" title={sections.areas.title}>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {sections.areas.items.map((area) => (
+            <Card key={area.name} title={area.name}>
+              <p className="mt-2 text-sm text-muted">{area.summary}</p>
+              <a
+                href={`/areas/${encodeURIComponent(area.name.toLowerCase().replace(/\s|\//g, '-'))}`}
+                className="mt-3 inline-block text-accent underline underline-offset-4 hover:text-accent-700 transition"
+              >
+                Ler artigo completo
+              </a>
+            </Card>
+          ))}
+        </div>
+        {sections.areas.note && (
+          <p className="mt-6 text-sm text-muted sm:text-base">{sections.areas.note}</p>
+        )}
+      </Section>
+
+      <Section id="processo" title={sections.processo.title}>
+        <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {sections.processo.steps.map((step, index) => (
+            <li key={step.name} className="rounded-lg border p-6 shadow bg-surface text-[color:var(--color-foreground-on-surface)]">
+              <div className="text-2xl font-semibold sm:text-3xl">{index + 1}</div>
+              <div className="mt-2 text-lg font-medium">{step.name}</div>
+              <div className="mt-2 text-sm text-muted">{step.description}</div>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section id="grupo" title={sections.grupo.title}>
+        <p className="text-base leading-relaxed sm:text-lg">{sections.grupo.intro}</p>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Button href="/grupo-terapeutico" className="w-full sm:w-auto">
+            {sections.grupo.ctaPrimary}
+          </Button>
+          <Button href="#contactos" variant="ghost" className="w-full sm:w-auto">
+            {sections.grupo.ctaSecondary}
+          </Button>
+        </div>
+      </Section>
+
+      <Section id="testemunhos" title={sections.testemunhos.title}>
+        <Testimonial items={sections.testemunhos.items} />
+      </Section>
+
+      <Section id="consultas" title={sections.consultas.title}>
+        <div className="space-y-3 text-base">
+          <p>{sections.consultas.details}</p>
+          <Button href="/marcar" className="w-full sm:w-auto">
+            {sections.consultas.cta}
+          </Button>
+        </div>
+      </Section>
+
+      <Section id="contactos" title={sections.contactos.title}>
+        <div className="space-y-3 text-base">
+          <p>
+            {sections.contactos.emailLabel}:{' '}
+            <a
+              className="text-accent hover:text-accent-700 focus-visible:ring-accent underline transition focus-visible:ring-2 focus-visible:ring-offset-2"
+              href={`mailto:${sections.contactos.email}`}
+            >
+              {sections.contactos.email}
+            </a>
+          </p>
+          <p>
+            {sections.contactos.phoneLabel}:{' '}
+            {phoneNumber ? (
+              <a
+                className="text-accent hover:text-accent-700 focus-visible:ring-accent underline transition focus-visible:ring-2 focus-visible:ring-offset-2"
+                href={`tel:${sanitizedPhone}`}
+              >
+                {phoneNumber}
+              </a>
+            ) : (
+              '\u2014'
+            )}
+          </p>
+        </div>
+      </Section>
+    </>
+  )
 }
